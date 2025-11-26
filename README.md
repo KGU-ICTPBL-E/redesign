@@ -61,19 +61,21 @@
 
 ## 4. 데이터 스키마
 1. `users` 테이블 (사용자 인증 및 권한 관리)
-컬럼명,데이터 타입,제약 조건,설명
-id,SERIAL,PRIMARY KEY,사용자 고유 ID
-username,VARCHAR(50),"UNIQUE, NOT NULL",로그인 ID (Express.js에서 인증에 사용)
-password_hash,VARCHAR(255),NOT NULL,비밀번호 해시값 (보안 필수)
-email,VARCHAR(100),"UNIQUE, NOT NULL",연락처 및 고유 식별자
-name,VARCHAR(100),NOT NULL,사용자 이름
-affiliation,VARCHAR(100),,소속/부서
-role,VARCHAR(10),"NOT NULL, DEFAULT 'user'",역할 ('user' 또는 'admin')
-is_approved,BOOLEAN,"NOT NULL, DEFAULT FALSE",관리자 승인 대기 로직의 핵심
-created_at,TIMESTAMP WITH TIME ZONE,DEFAULT CURRENT_TIMESTAMP,계정 생성 시간
-2. `inspection_logs` 테이블 (AI 검사 이력 및 품질 데이터)
-컬럼명,데이터 타입,제약 조건,설명
-log_id,VARCHAR(50),PRIMARY KEY,검사 로그 고유 ID (예: ERR100)
+|컬럼명|데이터 타입|제약 조건|설명|
+|---|---|---|---|
+|id|SERIAL|PRIMARY KEY|사용자 고유 ID|
+|username|VARCHAR(50)|"UNIQUE, NOT NULL"|로그인 ID (Express.js에서 인증에 사용)|
+|password_hash|VARCHAR(255)|NOT NULL|비밀번호 해시값 (보안 필수)|
+|email|VARCHAR(100)|"UNIQUE, NOT NULL"|연락처 및 고유 식별자|
+|name|VARCHAR(100)|NOT NULL|사용자 이름|
+|affiliation|VARCHAR(100)||소속/부서|
+|role|VARCHAR(10)|"NOT NULL, DEFAULT 'user'"|역할 ('user' 또는 'admin')|
+|is_approved|BOOLEAN|"NOT NULL, DEFAULT FALSE"|관리자 승인 대기 로직의 핵심|
+|created_at|TIMESTAMP WITH TIME ZONE|DEFAULT CURRENT_TIMESTAMP|계정 생성 시간|
+3. `inspection_logs` 테이블 (AI 검사 이력 및 품질 데이터)
+|컬럼명|데이터 타입|제약 조건|설명|
+|---|---|---|---|
+|log_id|VARCHAR(50)|PRIMARY KEY|검사 로그 고유 ID (예: ERR100)|
 detector_id,VARCHAR(10),NOT NULL,"검사를 수행한 설비 호기 (예: '1호기', '2호기')"
 timestamp,TIMESTAMP WITH TIME ZONE,DEFAULT CURRENT_TIMESTAMP,검사 발생 시각 (시뮬레이션 시간)
 final_verdict,VARCHAR(10),NOT NULL,최종 판정 결과 ('OK' 또는 'NG')
@@ -82,7 +84,7 @@ bbox_coords,JSONB,,AI 모델이 출력한 바운딩 박스 좌표 배열 (유연
 image_url,VARCHAR(255),,탐지 이미지가 저장된 경로 (웹 접근용)
 is_false_positive,BOOLEAN,DEFAULT FALSE,관리자의 오탐(False Positive) 피드백 기록
 admin_feedback_user_id,INTEGER,REFERENCES users(id),피드백을 기록한 관리자 ID (외래 키)
-3. `detector_status` 테이블 (실시간 시스템 상태 관리)
+4. `detector_status` 테이블 (실시간 시스템 상태 관리)
 컬럼명,데이터 타입,제약 조건,설명
 detector_id,VARCHAR(10),PRIMARY KEY,호기 ID (예: '1호기')
 current_status,VARCHAR(10),"NOT NULL, DEFAULT 'Normal'","시스템 상태 ('Normal', 'Warning', 'Offline')"

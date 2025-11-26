@@ -75,24 +75,26 @@
 |created_at|TIMESTAMP WITH TIME ZONE|DEFAULT CURRENT_TIMESTAMP|계정 생성 시간|
 
 2. `inspection_logs` 테이블 (AI 검사 이력 및 품질 데이터)
-3. 
+
 |컬럼명|데이터 타입|제약 조건|설명|
 |---|---|---|---|
 |log_id|VARCHAR(50)|PRIMARY KEY|검사 로그 고유 ID (예: ERR100)|
-detector_id,VARCHAR(10),NOT NULL,"검사를 수행한 설비 호기 (예: '1호기', '2호기')"
-timestamp,TIMESTAMP WITH TIME ZONE,DEFAULT CURRENT_TIMESTAMP,검사 발생 시각 (시뮬레이션 시간)
-final_verdict,VARCHAR(10),NOT NULL,최종 판정 결과 ('OK' 또는 'NG')
-confidence_score,"NUMERIC(4, 3)",,AI 탐지 신뢰도 점수 (0.000 ~ 1.000)
-bbox_coords,JSONB,,AI 모델이 출력한 바운딩 박스 좌표 배열 (유연한 JSON 저장)
-image_url,VARCHAR(255),,탐지 이미지가 저장된 경로 (웹 접근용)
-is_false_positive,BOOLEAN,DEFAULT FALSE,관리자의 오탐(False Positive) 피드백 기록
-admin_feedback_user_id,INTEGER,REFERENCES users(id),피드백을 기록한 관리자 ID (외래 키)
+|detector_id|VARCHAR(10)|NOT NULL|"검사를 수행한 설비 호기 (예: '1호기', '2호기')"|
+|timestamp|TIMESTAMP WITH TIME ZONE|DEFAULT CURRENT_TIMESTAMP|검사 발생 시각 (시뮬레이션 시간)|
+|final_verdict|VARCHAR(10)|NOT NULL|최종 판정 결과 ('OK' 또는 'NG')|
+|confidence_score|"NUMERIC(4, 3)"||AI 탐지 신뢰도 점수 (0.000 ~ 1.000)|
+|bbox_coords|JSONB||AI 모델이 출력한 바운딩 박스 좌표 배열 (유연한 JSON 저장)|
+|image_url|VARCHAR(255)||탐지 이미지가 저장된 경로 (웹 접근용)|
+|is_false_positive|BOOLEAN,DEFAULT FALSE|관리자의 오탐(False Positive) 피드백 기록|
+|admin_feedback_user_id|INTEGER|REFERENCES users(id)|피드백을 기록한 관리자 ID (외래 키)|
 
 3. `detector_status` 테이블 (실시간 시스템 상태 관리)
-컬럼명,데이터 타입,제약 조건,설명
-detector_id,VARCHAR(10),PRIMARY KEY,호기 ID (예: '1호기')
-current_status,VARCHAR(10),"NOT NULL, DEFAULT 'Normal'","시스템 상태 ('Normal', 'Warning', 'Offline')"
-last_updated,TIMESTAMP WITH TIME ZONE,DEFAULT CURRENT_TIMESTAMP,최종 상태 업데이트 시간
+
+|컬럼명|데이터 타입|제약 조건|설명|
+|---|---|---|---|
+|detector_id|VARCHAR(10)|PRIMARY KEY|호기 ID (예: '1호기')|
+|current_status|VARCHAR(10)|"NOT NULL, DEFAULT 'Normal'"|"시스템 상태 ('Normal', 'Warning', 'Offline')"|
+|last_updated|TIMESTAMP WITH TIME ZONE|DEFAULT CURRENT_TIMESTAMP|최종 상태 업데이트 시간|
 
 ## 5. API 명세서
 express.js
